@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Ipad Pro",
+    "description": "chip M2, pantalla Liquid Retina XDR de 12,9” o pantalla Liquid Retina de 11”, Wi-Fi 6E y puntero flotante para el Apple Pencil",
+    "code": "12345",
+    "thumbnail": "url",
+    "price": 900,
+    "stock": 10,
+    "id": 1,
+    "timestamp": 1662997922979
+  },
+  {
+    "name": "Iphone 14",
+    "description": "Dynamic Island. Detección de Choques. Cámara de 48 MP con una resolución 4 veces mayor. Chip A16 Bionic. 4 colores",
+    "code": "67890",
+    "thumbnail": "url",
+    "price": 800,
+    "stock": 10,
+    "id": "2",
+    "timestamp": 1662998332133
+  }
+]

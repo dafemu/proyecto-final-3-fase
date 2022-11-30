@@ -1,0 +1,40 @@
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-4 p-4 text-center">
+                <form id="formulario" action="/api/productos" method="POST">
+                    <div class="mb-3">
+                        <label for="productoNombre" class="form-label">Nombre Productoaaaaaaa:</label>
+                        <input type="text" class="form-control" id="productoNombre" name="productoNombre" placeholder="ej: Ipad">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productoPrecio" class="form-label">Precio:</label>
+                        <input type="number" class="form-control" id="productoPrecio" name="productoPrecio" placeholder="ej: 800">
+                    </div>
+                    <div class="mb-3">
+                        <label for="productoImagen" class="form-label">Imagen:</label>
+                        <input type="text" class="form-control" id="productoImagen" name="productoImagen" placeholder="ej: URL">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                </form>
+            </div>
+
+            <!-- PRODUCTOS -->
+            <div class="col-12 col-md-4 p-4">
+                <table id="tableProductos" class="table table-striped">
+                </table>
+            </div>
+
+            <!-- MENSAJES -->
+            <div class="col-12 col-md-4 p-4">
+                <div id="mensajes"></div>
+
+                <hr>
+
+                <form onsubmit="return addMessage(this)">
+                    <input class="form-control mb-3" type="email" id="username" placeholder="Email">
+                    <input class="form-control mb-3" type="text" id="texto" placeholder="Cuentanos algo...">
+                    <input class="btn btn-success w-100" type="submit" value="Enviar">
+                </form>
+            </div>
+        </div>
+    </div>
