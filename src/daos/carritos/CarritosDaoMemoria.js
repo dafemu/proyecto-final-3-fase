@@ -75,4 +75,4 @@ class CarritosDaoMemoria extends ContenedorMemoria {
 
 }
 
-export {CarritosDaoMemoria};
+export default CarritosDaoMemoria;

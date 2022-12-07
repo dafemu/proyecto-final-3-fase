@@ -7,13 +7,31 @@ const datosRouter = Router();
 
 datosRouter.get("/", auth, async (req, res) => {
     const { method } = req;
-    const time = new Date().toLocaleString();
-    logger.info(`Ruta '/datos' - con metodo: ${method} - time: ${time}`);
+    const time = new Date().toLocaleString();  
 
-    const datosUsuario = await User.findById(req.user._id).lean();
-    res.render("datos", {
-        datos: datosUsuario,
-    });
+    const carts = await carritosDao.getAll()
+    const cart = carts.find(el => el.userId == req.user._id) 
+
+    if (!cart) {
+        const newCart = await carritosDao.save(req.user._id)    
+        const productos = await productosDao.getAll();    
+        const datosUsuario = await usersDao.getById(req.user._id);    
+        logger.info(`Ruta '/' - con metodo: ${method} - time: ${time}`);
+        res.render("home", {
+            userData : datosUsuario,
+            productos,
+            cart: newCart
+        });
+    }else{
+        const productos = await productosDao.getAll();
+        const datosUsuario = await usersDao.getById(req.user._id);  
+        logger.info(`Ruta '/' - con metodo: ${method} - time: ${time}`);
+        res.render("home", {
+            userData : datosUsuario,      
+            productos,
+            cart
+        });
+    }
 });
 
 export default datosRouter;

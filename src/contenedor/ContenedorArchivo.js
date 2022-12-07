@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default class ContenedorArchivo {
+class ContenedorArchivo {
     constructor(nombreFile){
         this.nombreFile = nombreFile;
         this.productos = [];
@@ -82,3 +82,5 @@ export default class ContenedorArchivo {
         }
     }
 }
+
+export default ContenedorArchivo;

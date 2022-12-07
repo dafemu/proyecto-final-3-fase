@@ -1,10 +1,14 @@
-import carritosDao from '../daos/controller.js';
+import { carritosDao } from '../daos/controller.js';
+import { productosDao } from '../daos/controller.js';
+import { usuariosDao } from '../daos/controller.js';
+
+import auth from '../middlewares/auth.js';
+
 import logger from '../utils/logger.js';
 
 import { Router } from "express";
 
 const routerCarrito = Router();
-const carritosDaoController = carritosDao.carritosDao;
 
 routerCarrito.post('/', async (req,res) => {
     const { method } = req;
@@ -37,50 +41,80 @@ routerCarrito.delete('/:id', async(req,res) => {
     });
 });
 
-// //Productos en el carrito
-// routerCarrito.get('/:id/productos', async (req,res) => {
-//     console.log('GET request recibido con id');
-//     const id = Number(req.params.id);
-//     const carrito = await carritosDaoController.readOne(id);
-//     res.send(carrito);
-// });
+//Productos en el carrito
+routerCarrito.get('/:id/productos', auth, (req, res) => {  
+    const { method } = req;
+    const time = new Date().toLocaleString();
 
-// routerCarrito.post('/:id/productos', async (req,res) => {
-//     console.log('POSTcarrito dos request recibido');
-//     const idCarrito = Number(req.params.id);
-//     const idProducto = req.body.id;
+    let id = req.params.id    
+    carritosDao.getById(id)
+    .then (data => { 
+      logger.info(`Ruta '/carrito' - con metodo: ${method} - time: ${time}`);
+      res.status(201).send(data.products)
+    })
+});
 
-//     const carrito = await carritosDaoController.readOne(idCarrito);
-//     const producto = await productosDao.readOne(idProducto);
+routerCarrito.post('/:id/productos', async (req,res) => {
+    console.log('POSTcarrito dos request recibido');
+    const {method} = req;
+    const time = new Date().toLocaleString();
     
-//     carrito.productos.push(producto);
-//     await carritosDaoController.update(idCarrito, carrito)
+    let idCarrito = req.params.idCarrito  
+    let idProducto = req.params.idProducto
 
-//     res.status(201).json({
-//         result: 'Producto agregado al carrito',
-//         NuevoCarrito: carrito
-//     });
-// });
+    const product = await productosDao.getById(idProducto)
+    
+    carritosDao.addProduct(idCarrito, product)
+    .then(data => {
+        logger.info(`Ruta '/carrito' - con metodo: ${method} - time: ${time}`);
+        res.status(201).json(data)
+    }) 
+});
 
-// routerCarrito.delete('/:id/productos/:id_prod', async (req,res) => {
-//     console.log('DELETE request recibido');
-//     const idCarrito = Number(req.params.id);
-//     const idCarritoProd = Number(req.params.id_prod);
+routerCarrito.delete('/:id/productos/:id_prod', async (req,res) => {
+    console.log('DELETE request recibido');
+    const {method} = req;
+    const time = new Date().toLocaleString();
 
-//     const carrito = await carritosDaoController.readOne(idCarrito);
+    let idCarrito = req.params.idCarrito
+    let idProducto = req.params.idProducto
+    
+    carritosDao.deleteProduct(idCarrito, idProducto)
+    .then(data => {
+        logger.info(`Ruta '/carrito' - con metodo: ${method} - time: ${time}`);
+        res.status(201).json(data)
+    })
+});
 
-//     const index = carrito.productos.findIndex(prod => prod.id == idCarritoProd);
-
-//     if(index !== -1){
-//         carrito.productos.splice(index,1);
-//         await carritosDaoController.update(idCarrito,carrito);
-//     }
-
-//     res.status(200).json({
-//         result: 'Producto borrado del carrito',
-//         id: req.params.id,
-//         ListadoProductosNuevo: carrito,
-//     });
-// });
+routerCarrito.put("/buy", async (req, res) => {  
+    const {method} = req;
+    const time = new Date().toLocaleString();
+  
+    const datosUsuario = await usuariosDao.getById(req.user._id);
+    const userName = datosUsuario.username; 
+    const userMail = datosUsuario.email;
+    const userPhone = datosUsuario.telefono;
+  
+    const carts = await carritosDao.getAll();
+    const cart = carts.find(el => el.userId == req.user._id)
+    const products = cart.products;
+  
+    const id = req.body.cartId 
+  
+    const data = {
+      userName,
+      userMail,
+      products
+    }
+    
+    newPurchase(data);
+    sendSMS(userPhone);
+  
+    carritosDao.deleteAllProducts(id)
+      .then(data => {
+        logger.info(`Compra Realizada con Exito --> Ruta '/carrito' - con metodo: ${method} - time: ${time}`);
+        res.redirect("/");
+      }) 
+});
 
 export default routerCarrito;

@@ -11,7 +11,7 @@ class CarritosDaoArchivo extends ContenedorArchivo {
   async save() {
     let obj = { products: [] };
     super.save(obj);
-  }   
+  }
 
   async addProduct(idCart, idProduct) {
     try {

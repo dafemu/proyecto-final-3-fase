@@ -52,6 +52,10 @@ function renderMensajes(data){
 
 function renderProductos(data){
     console.log("entra al render producto");
+
+    const cartId = document.getElementById("cartId");
+    const idCart = cartId.textContent;
+
     const conProducto = `
     <thead>
         <tr>
@@ -76,6 +80,9 @@ function renderProductos(data){
                     <td>
                         <img src="${prod.thumbnail}" class="img-thumbnail" alt="${prod.title}">
                     </td>
+                    <td>
+                        <button class="addBtn btn btn-primary" name="${idCart}" id="${el._id}">Add To Cart</button>   
+                    </td>
                 </tr>
             </tbody>
         `)
@@ -86,6 +93,16 @@ function renderProductos(data){
 
     }else{
         tablaProductos.innerHTML = sinProducto;
+    }
+
+    const addBtn = document.getElementsByClassName("addBtn");
+    
+    for (let btn of addBtn) {
+        btn.addEventListener("click", (e) => {
+            let idCart = e.target.name;
+            let idProduct = e.target.id;
+            addProduct(idCart, idProduct);
+        });
     }
 }
 
@@ -100,3 +117,59 @@ function addMessage(e){
 
     return false;
 }
+
+const renderCounter = () => {
+    const counter = document.getElementById("counter");
+    const cartId = document.getElementById("cartId").innerHTML; 
+    const URL = `/carrito/${cartId}/productos`;
+  
+    fetch(URL)
+      .then(res => res.json())
+      .then(res => {
+        counter.innerHTML = `
+          <p>${res.length}</p>
+        `;
+        cartContainer.appendChild(counter);
+      })
+      .catch(err => console.log(err));
+} 
+
+renderCounter();
+
+const addProduct = async (idCart, idProduct) => {  
+    const url = `/carrito/${idCart}/${idProduct}`;  
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {  
+        alert("Producto Agregado al Carrito"); 
+        renderCounter(); 
+      });
+}
+
+const URL = "/lista-productos";
+
+fetch(URL)
+  .then(res => res.json())
+  .then(res => {
+    renderProducts(res);
+  })
+  .catch(err => console.log(err));
+
+const searchTab = document.getElementById("searchTab");
+
+searchTab.addEventListener("keyup", (e) => {
+  const URL = "/lista-productos";
+  fetch(URL)
+    .then(res => res.json())
+    .then(res => {
+      const search = e.target.value;
+      const productos = res.filter(el => el.description.toLowerCase().includes(search.toLowerCase()));
+      renderProducts(productos);
+    })
+    .catch(err => console.log(err));
+}); 
