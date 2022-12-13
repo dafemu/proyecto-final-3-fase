@@ -1,0 +1,49 @@
+{{#if userData}}
+<header class="d-flex m-2">
+	<div class="container-fluid">
+		<div class="userData">
+			<p class="alert alert-warning">Bienvenido {{ userData.username.toUpperCase() }}</p>	
+			<p style="display:none" id="userId">{{ userData._id }}</p>
+			<p style="display:none" id="cartId">{{ cart._id }}</p>							
+			<a href="/user">Datos de Usuario</a>
+		</div>
+		<img class="img-thumbnail" src="/profileImages/{{ userData.image }}">		
+						
+	</div>
+</header>
+{{/if}}
+
+{{#if !userData}}
+<div class="d-flex m-2">
+	<p class="container-fluid"></p>
+		<p class="alert alert-warning">Necesitas loguearte</p>
+		<a href="/login">LOGIN</a> 
+	</div>                                  
+</div>
+{{/if}}
+
+<div class="cartContainer">
+	<h2 class="fs-3">CARRITO</h2>
+	<table id="cart">
+		<thead class="encabezado">
+			<tr>
+				<th scope="col" class="col">NOMBRE</th>
+				<th scope="col" class="col">PRECIO</th>
+				<th scope="col" class="col">FOTO</th>
+				<th scope="col" class="col">ELIMINAR</th>
+			</tr>
+		</thead>
+		<tbody class="tbody" id="cartContainer"></tbody>							
+	</table>
+
+{{#if (cart.products.length > 0)}}
+	<form action="/api/carrito/buy" method="GET" id="fin-compra">    
+		<input type="hidden" name="cartId" value={{cart._id}}>
+		<button type="submit" class="fin-compra">Terminar Compra</button>
+	</form>						
+{{/if}}
+</div>
+
+<div class="anchor btn btn-primary">
+	<a href="/">VOLVER AL HOME</a>                                   
+</div> 

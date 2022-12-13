@@ -68,7 +68,7 @@ const renderProducts = (arr) => {
             <p>${el.description}</p>
             <p>Codigo: ${el.code}</p>
             <p>Stock: ${el.stock} Unidades</p>
-            <a href="/productos/edtiProduct/${el._id}" class="edtBtn">Editar Producto</a> 
+            <a href="/productos/editProduct/${el._id}" class="edtBtn">Editar Producto</a> 
             <button class="delete-btn btn btn-danger" name="${el._id}">Eliminar Producto</button>
         </div>
       </div>

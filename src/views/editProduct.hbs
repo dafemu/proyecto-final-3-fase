@@ -1,0 +1,43 @@
+<div class="formulario">				
+	<form class="form" action="/api/productos/editProduct" method="PUT" id="editForm">
+		<div class="form-group">
+			<label for="name">ID</label>
+			<input type="text" name="_id" id="id" value="{{id}}" readonly>						
+		</div>
+		<div class="form-group">
+			<label for="name">NOMBE</label>
+			<input type="text" class="form-control" name="name" id="name" placeholder="{{producto.name}}" required>
+		</div>
+		<div class="form-group">
+			<label for="precio">PRECIO</label>
+			<input type="text" class="form-control" name="price" id="precio" placeholder="{{producto.price}}" required>
+		</div>
+		<div class="form-group">
+			<label for="precio">CODIGO</label>
+			<input type="text" class="form-control" name="code" id="code" placeholder="{{producto.code}}" required>
+		</div>
+		<div class="form-group">
+			<label for="precio">DESCRIPCION</label>
+			<input type="text" class="form-control" name="description" id="description" placeholder="{{producto.description}}" required>
+		</div>
+		<div class="form-group">
+			<label for="precio">STOCK</label>
+			<input type="text" class="form-control" name="stock" id="stock" placeholder="{{producto.stock}}" required>
+		</div>
+		<div class="form-group">
+			<label for="thumbnail">THUMBNAIL</label>
+			<input type="thumbnail" class="form-control" name="thumbnail" id="thumbnail" placeholder="{{producto.thumbnail}}" required>                        
+		</div>             
+		<div class="form-button">
+			<input type="submit" value="EDITAR" class="p-1">             
+		</div>
+	</form>
+</div>		
+
+<div class="anchor btn btn-success">
+	<a href="/api/productos">VOLVER A PRODUCTOS</a>                                   
+</div>
+
+<div class="anchor btn btn-primary">
+	<a href="/">IR A HOME</a>                                   
+</div>

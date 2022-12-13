@@ -17,7 +17,7 @@ datosRouter.get("/", auth, async (req, res) => {
         const productos = await productosDao.getAll();    
         const datosUsuario = await usersDao.getById(req.user._id);    
         logger.info(`Ruta '/' - con metodo: ${method} - time: ${time}`);
-        res.render("home", {
+        res.render("datos", {
             userData : datosUsuario,
             productos,
             cart: newCart
@@ -26,7 +26,7 @@ datosRouter.get("/", auth, async (req, res) => {
         const productos = await productosDao.getAll();
         const datosUsuario = await usersDao.getById(req.user._id);  
         logger.info(`Ruta '/' - con metodo: ${method} - time: ${time}`);
-        res.render("home", {
+        res.render("datos", {
             userData : datosUsuario,      
             productos,
             cart

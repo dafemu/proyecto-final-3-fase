@@ -47,8 +47,8 @@ routerProductos.post('/', auth, async (req,res) => {
     const time = new Date().toLocaleString();
     logger.info(`Ruta '/productos' - con metodo: ${method} - time: ${time}`);
 
-    const { name, description, code, thumbnail, price, stock } = req.body
-    productosDao.save({ name, description, code, thumbnail, price, stock })
+    const { productoNombre, productoDesc, productoCodigo, productoImagen, productoPrecio, stock } = req.body
+    productosDao.save({ productoNombre, productoDesc, productoCodigo, productoImagen, productoPrecio, stock })
     .then(data => {
         res.json(data);
     })
@@ -100,7 +100,7 @@ routerProductos.delete('/:id', auth, async (req,res) => {
     })
 });
 
-routerProductos.get("/edtiProduct/:id", auth, async (req, res) => {
+routerProductos.get("/editProduct/:id", auth, async (req, res) => {
 
     const { method } = req;
     const time = new Date().toLocaleString();
@@ -112,17 +112,17 @@ routerProductos.get("/edtiProduct/:id", auth, async (req, res) => {
     const producto = await productosDao.getById(id);
   
     if (user.toLowerCase() !== 'pepe') {
-      logger.info(`Acceso no Autorizado: Ruta '/edtiProduct' - con metodo: ${method} - time: ${time}`);
+      logger.info(`Acceso no Autorizado: Ruta '/editProduct' - con metodo: ${method} - time: ${time}`);
       return res.render('unauthorized')
     } 
   
-    logger.info(`Ruta '/edtiProduct' - con metodo: ${method} - time: ${time}`);
-    return res.render('edtiProduct', {id: id, producto: producto})
+    logger.info(`Ruta '/editProduct' - con metodo: ${method} - time: ${time}`);
+    return res.render('editProduct', {id: id, producto: producto})
   
   });
   
   
-  routerProductos.put("/edtiProduct", auth, async (req, res) => {
+  routerProductos.put("/editProduct", auth, async (req, res) => {
   
     const { method } = req;
     const time = new Date().toLocaleString();
@@ -131,15 +131,15 @@ routerProductos.get("/edtiProduct/:id", auth, async (req, res) => {
     const user = datosUsuario.username;
   
     if (user.toLowerCase() !== 'pepe') {
-      logger.info(`Acceso no Autorizado: Ruta '/edtiProduct' - con metodo: ${method} - time: ${time}`);
+      logger.info(`Acceso no Autorizado: Ruta '/editProduct' - con metodo: ${method} - time: ${time}`);
       return res.render('unauthorized')
     } 
       
-    const {_id, name, description, code, thumbnail, price, stock} = req.body
+    const { _id,  productoNombre, productoDesc, productoCodigo, productoImagen, productoPrecio, stock } = req.body
     
-    productosDao.changeById(_id, { name, description, code, thumbnail, price, stock }) 
+    productosDao.changeById(_id, {  productoNombre, productoDesc, productoCodigo, productoImagen, productoPrecio, stock }) 
     .then(data => {
-      logger.info(`Producto Editado: Ruta '/edtiProduct' - con metodo: ${method} - time: ${time}`);
+      logger.info(`Producto Editado: Ruta '/editProduct' - con metodo: ${method} - time: ${time}`);
       res.json(data) 
     })
     

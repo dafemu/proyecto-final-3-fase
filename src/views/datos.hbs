@@ -4,6 +4,12 @@
     <h2><i>Bienvenido {{datos.username}}</i></h2>
     <br />
     <h3>dirección: {{datos.direccion}}</h3>
+    <br />
+    <img class="img-thumbnail" src="/profileImages/{{userData.image}}" alt="user image">		
+    <a href="/api/carrito" id="cartContainer"><img class="cartIcon" src="/images/cart.png" alt="cart">
+        <div id="counter"></div>
+    </a>
+    <hr>
     <button
       class="btn btn-danger my-5"
       onclick="location.href='/logout'"
@@ -11,7 +17,50 @@
   </div>
 </div>
 <hr>
-<div class="container-fluid">
+{{#if !userData}}
+<div class="logContainer">
+	<p class="container-fluid"></p>
+		<p class="alert alert-warning">Necesitas loguearte</p>
+		<a href="/login">LOGIN</a> 
+	</div>                                  
+</div>
+{{/if}}
+
+
+<!-- PRODUCTOS -->
+<div class="col-12 col-md-4 p-4">
+    <table id="tableProductos" class="table table-striped"></table>
+    <hr>
+    <div class="listadoProductos">	
+        <h2 class="fs-3">LISTA DE PRODUCTOS</h2>
+
+        <div class="search anchor btn btn-primary">
+            <input type="text" id="searchTab" placeholder="Buscar producto 🔍">					
+        </div>
+
+        <div id="productsContainer"></div>
+	</div>
+</div>
+
+<!-- MENSAJES -->
+<div class="col-12 col-md-4 p-4">
+    <div id="mensajes"></div>
+
+    <hr>
+
+    <form onsubmit="return addMessage(this)">
+        <input class="form-control mb-3" type="email" id="username" placeholder="Email">
+        <input class="form-control mb-3" type="text" id="texto" placeholder="Cuentanos algo...">
+        <input class="btn btn-success w-100" type="submit" value="Enviar">
+    </form>
+</div>
+
+{{#if (userData.username.toLowerCase() == "pepe")}}			
+    <div class="anchor btn btn-primary">
+        <a href="/api/productos">IR A PANEL ADMINISTRADOR</a>                                   
+    </div> 
+{{/if}}
+{{!-- <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-4 p-4 text-center">
                 <form id="formulario" action="/api/productos" method="POST">
@@ -50,5 +99,5 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
         <script src="../../public/main.js"></script>

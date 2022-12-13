@@ -11,7 +11,7 @@ form.addEventListener("submit", (e) => {
 });
 
 const editProduct = (data) => {
-  const url = `/productos/edtiProduct`;
+  const url = `/productos/editProduct`;
   const method = "PUT";
   const headers = {
     "Content-Type": "application/json"

@@ -13,7 +13,7 @@ const routerCarrito = Router();
 routerCarrito.post('/', async (req,res) => {
     const { method } = req;
     const time = new Date().toLocaleString();
-    logger.info(`Ruta '/api/carritos' - con metodo: ${method} - time: ${time}`);
+    logger.info(`Ruta '/api/carrito' - con metodo: ${method} - time: ${time}`);
 
     console.log('POSTcarrito request recibido');
     const carrito = {
@@ -29,7 +29,7 @@ routerCarrito.post('/', async (req,res) => {
 routerCarrito.delete('/:id', async(req,res) => {
     const { method } = req;
     const time = new Date().toLocaleString();
-    logger.info(`Ruta '/api/carritos' - con metodo: ${method} - time: ${time}`);
+    logger.info(`Ruta '/api/carrito' - con metodo: ${method} - time: ${time}`);
 
     console.log('DELETEcarrito request recibido');
     const id = Number(req.params.id);

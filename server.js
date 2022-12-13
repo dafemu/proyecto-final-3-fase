@@ -7,6 +7,7 @@ import path from "path";
 import passport from "passport";
 import dotenv from "dotenv";
 import compression from "compression";
+import { fileURLToPath } from 'url';
 
 import "./src/dataBase/config.js";
 import MongoStore from "connect-mongo";
@@ -14,6 +15,10 @@ import MongoStore from "connect-mongo";
 const app = express();
 dotenv.config();
 /*============================[Middlewares]============================*/
+
+/*----------- usar archivo publicos -----------*/
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /*----------- Session -----------*/
 const advanceOptions = {
@@ -91,7 +96,8 @@ app.engine(
 );
 app.set("view engine", ".hbs");
 
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -107,7 +113,7 @@ import router from "./src/routes/index.js";
 app.use("/", router);
 
 /*============================[Servidor]============================*/
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 //levantamos el servidor
 const server = app.listen(PORT, () => {
